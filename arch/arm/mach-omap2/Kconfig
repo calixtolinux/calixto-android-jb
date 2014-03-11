@@ -355,6 +355,11 @@ config MACH_AM335XIAEVM
 	depends on SOC_OMAPAM33XX
 	default y
 
+config CALIXTO_AM335XNXT
+	bool "Calixto AM335x NXT Module"
+        depends on SOC_OMAPAM33XX
+        default n
+
 config MACH_OMAP_4430SDP
 	bool "OMAP 4430 SDP board"
 	default y

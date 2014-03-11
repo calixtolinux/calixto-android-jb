@@ -507,8 +507,13 @@ static struct pinmux_config usb1_pin_mux[] = {
 	{NULL, 0},
 };
 
-#define AM335XEVM_WLAN_PMENA_GPIO	GPIO_TO_PIN(3, 16)
-#define AM335XEVM_WLAN_IRQ_GPIO		GPIO_TO_PIN(3, 10)
+#if defined(CONFIG_CALIXTO_AM335XNXT)
+   #define AM335XEVM_WLAN_PMENA_GPIO	GPIO_TO_PIN(0, 27)
+   #define AM335XEVM_WLAN_IRQ_GPIO	GPIO_TO_PIN(0, 26)
+#else
+   #define AM335XEVM_WLAN_PMENA_GPIO    GPIO_TO_PIN(3, 16)                          
+   #define AM335XEVM_WLAN_IRQ_GPIO      GPIO_TO_PIN(3, 10)
+#endif
 
 struct wl12xx_platform_data am335xevm_wlan_data = {
 	.irq = OMAP_GPIO_IRQ(AM335XEVM_WLAN_IRQ_GPIO),
@@ -518,10 +523,43 @@ struct wl12xx_platform_data am335xevm_wlan_data = {
 #else
 	.board_ref_clock = WL12XX_REFCLOCK_38_XTAL, /* 38.4Mhz */
 #endif
-	.bt_enable_gpio = GPIO_TO_PIN(1, 18),
-	.wlan_enable_gpio = GPIO_TO_PIN(1, 17),
+#if defined(CONFIG_CALIXTO_AM335XNXT)
+        .bt_enable_gpio = GPIO_TO_PIN(0, 23),
+        .wlan_enable_gpio = GPIO_TO_PIN(0, 27),
+#else
+	.bt_enable_gpio = GPIO_TO_PIN(0, 20),
+        .wlan_enable_gpio = GPIO_TO_PIN(3, 16),    
+#endif
+
 };
 
+#if defined(CONFIG_CALIXTO_AM335XNXT)
+/* Module pin mux for wlan and bluetooth */                                          
+static struct pinmux_config mmc2_wl12xx_pin_mux[] = {                                
+        {"gpmc_ad12.mmc2_dat0", OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {"gpmc_ad13.mmc2_dat1", OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {"gpmc_ad14.mmc2_dat2", OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {"gpmc_ad15.mmc2_dat3",  OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {"gpmc_csn3.mmc2_cmd",  OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {"gpmc_clk.mmc2_clk",   OMAP_MUX_MODE3 | AM33XX_PIN_INPUT_PULLUP},           
+        {NULL, 0},                                                                   
+};
+
+static struct pinmux_config uart1_wl12xx_pin_mux[] = {                    
+        {"uart1_ctsn.uart1_ctsn", OMAP_MUX_MODE0 | AM33XX_PIN_OUTPUT},    
+        {"uart1_rtsn.uart1_rtsn", OMAP_MUX_MODE0 | AM33XX_PIN_INPUT}, 
+        {"uart1_rxd.uart1_rxd", OMAP_MUX_MODE0 | AM33XX_PIN_INPUT_PULLUP},
+        {"uart1_txd.uart1_txd", OMAP_MUX_MODE0 | AM33XX_PULL_ENBL},       
+        {NULL, 0},
+};      
+
+static struct pinmux_config wl12xx_pin_mux[] = {
+        {"gpmc_ad11.gpio0_27",  OMAP_MUX_MODE7 | AM33XX_PIN_OUTPUT},
+        {"gpmc_ad10.gpio0_26",  OMAP_MUX_MODE7 | AM33XX_PIN_INPUT},
+        {"gpmc_ad9.gpio0_23",   OMAP_MUX_MODE7 | AM33XX_PIN_OUTPUT},
+        {NULL, 0},
+};
+#else
 /* Module pin mux for wlan and bluetooth */
 static struct pinmux_config mmc2_wl12xx_pin_mux[] = {
         {"mii1_rxdv.mmc2_dat0", OMAP_MUX_MODE5 | AM33XX_PIN_INPUT_PULLUP},
@@ -534,19 +572,21 @@ static struct pinmux_config mmc2_wl12xx_pin_mux[] = {
 };
 
 static struct pinmux_config uart1_wl12xx_pin_mux[] = {
-	{"uart1_ctsn.uart1_ctsn", OMAP_MUX_MODE0 | AM33XX_PIN_OUTPUT},
-	{"uart1_rtsn.uart1_rtsn", OMAP_MUX_MODE0 | AM33XX_PIN_INPUT},
+        {"uart1_ctsn.uart1_ctsn", OMAP_MUX_MODE0 | AM33XX_PIN_OUTPUT},
+        {"uart1_rtsn.uart1_rtsn", OMAP_MUX_MODE0 | AM33XX_PIN_INPUT},
 	{"uart1_rxd.uart1_rxd", OMAP_MUX_MODE0 | AM33XX_PIN_INPUT_PULLUP},
-	{"uart1_txd.uart1_txd", OMAP_MUX_MODE0 | AM33XX_PULL_ENBL},
-	{NULL, 0},
+        {"uart1_txd.uart1_txd", OMAP_MUX_MODE0 | AM33XX_PULL_ENBL},
+        {NULL, 0},
 };
 
 static struct pinmux_config wl12xx_pin_mux[] = {
         {"mcasp0_axr0.gpio3_16", OMAP_MUX_MODE7 | AM33XX_PIN_OUTPUT},
         {"mii1_rxclk.gpio3_10",  OMAP_MUX_MODE7 | AM33XX_PIN_INPUT},
-        {"xdma_event_intr1.gpio0_20", OMAP_MUX_MODE7 | AM33XX_PIN_OUTPUT_PULLUP},
+        {"xdma_event_intr1.gpio0_20",OMAP_MUX_MODE7 | AM33XX_PIN_OUTPUT},
         {NULL, 0},
+
 };
+#endif
 
 static struct pinmux_config i2c0_pin_mux[] = {
         {"i2c0_sda.i2c0_sda", OMAP_MUX_MODE0 | AM33XX_SLEWCTRL_SLOW |
@@ -1039,6 +1079,7 @@ static struct evm_dev_cfg calixto_evm_dev_cfg[] = {
 static void setup_board_calixto_evm(void)
 {
 	pr_info("The board is a AM335x Calixto-EVM.\n");
+	pr_info("Calixto Andrroid Jelly Bean OS.\n");
 
 	am335x_mmc[0].gpio_cd = -EINVAL;
 	am335x_mmc[0].gpio_wp = -EINVAL;

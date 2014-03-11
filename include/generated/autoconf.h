@@ -8361,8 +8361,9 @@
 #define __enabled_CONFIG_ARCH_S3C2410_MODULE 0
 #define __enabled_CONFIG_MTD_NAND_S3C2410_HWECC 0
 #define __enabled_CONFIG_MTD_NAND_S3C2410_HWECC_MODULE 0
-#define __enabled_CONFIG_CS_LCD4_SUPPORT 0
+#define __enabled_CONFIG_CS_LCD4_SUPPORT 1
 #define __enabled_CONFIG_CS_LCD4_SUPPORT_MODULE 0
+#define CONFIG_CS_LCD4_SUPPORT 1
 #define __enabled_CONFIG_DVB_ISL6421 0
 #define __enabled_CONFIG_DVB_ISL6421_MODULE 0
 #define __enabled_CONFIG_CRYPTO_DEV_FSL_CAAM_CRYPTO_API 0
@@ -12186,9 +12187,8 @@
 #define __enabled_CONFIG_KS0108_MODULE 0
 #define __enabled_CONFIG_HW_RANDOM_OCTEON 0
 #define __enabled_CONFIG_HW_RANDOM_OCTEON_MODULE 0
-#define __enabled_CONFIG_CS_LCD7_OLD_SUPPORT 1
+#define __enabled_CONFIG_CS_LCD7_OLD_SUPPORT 0
 #define __enabled_CONFIG_CS_LCD7_OLD_SUPPORT_MODULE 0
-#define CONFIG_CS_LCD7_OLD_SUPPORT 1
 #define __enabled_CONFIG_SGI_IOC4 0
 #define __enabled_CONFIG_SGI_IOC4_MODULE 0
 #define __enabled_CONFIG_NFS_V4 1
@@ -13016,6 +13016,9 @@
 #define __enabled_CONFIG_DVB_TDA10048_MODULE 0
 #define __enabled_CONFIG_INPUT_FF_MEMLESS 0
 #define __enabled_CONFIG_INPUT_FF_MEMLESS_MODULE 0
+#define __enabled_CONFIG_CALIXTO_AM335XNXT 1
+#define __enabled_CONFIG_CALIXTO_AM335XNXT_MODULE 0
+#define CONFIG_CALIXTO_AM335XNXT 1
 #define __enabled_CONFIG_GPIO_AB8500 0
 #define __enabled_CONFIG_GPIO_AB8500_MODULE 0
 #define __enabled_CONFIG_IBM_EMAC_MAL_CLR_ICINTSTAT 0
@@ -15683,8 +15686,9 @@
 #define __enabled_CONFIG_BLK_DEV_FD_MODULE 0
 #define __enabled_CONFIG_IPPP_FILTER 0
 #define __enabled_CONFIG_IPPP_FILTER_MODULE 0
-#define __enabled_CONFIG_CS_WLAN_SUPPORT 0
+#define __enabled_CONFIG_CS_WLAN_SUPPORT 1
 #define __enabled_CONFIG_CS_WLAN_SUPPORT_MODULE 0
+#define CONFIG_CS_WLAN_SUPPORT 1
 #define __enabled_CONFIG_EVM 0
 #define __enabled_CONFIG_EVM_MODULE 0
 #define __enabled_CONFIG_DEBUG_HIGHBANK_UART 0
